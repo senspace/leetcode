@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     cout << "Result:" << result_seven << endl;
     
     cout << "\nTest: Number Eight" << endl;
-    string s_eight = "aab";
+    string s_eight = "cabababcbc";
     PalindromePartitioningII palindrome_partitioning_ii;
     int result_eight = palindrome_partitioning_ii.MinimumCut(s_eight);
     cout << "Result: " << result_eight << endl;

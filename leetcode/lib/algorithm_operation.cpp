@@ -29,6 +29,7 @@ double Pow::Power(double x, int n) {
  * Time complexity: O(logn) Space complexity: O(1)
  */
 int Sqrt::GetSqrt(int x) {
+    if (x == 0) return 0;
     int left = 1, right = x;
     while (left + 1 < right) {
         int middle = (right - left) / 2 + left;
@@ -207,7 +208,7 @@ int Subarray::MaximumSubarray(vector<int> numbers) {
 int PalindromePartitioningII::MinimumCut(string s) {
     int length = int(s.size());
     vector<vector<bool> > p(length, vector<bool>(length, false));
-    vector<int> f(length, 0);
+    vector<int> f(length + 1, 0);
     for (int i = 0; i <= length; ++i) {
         f[i] = length - 1 - i;
     }
@@ -550,26 +551,24 @@ int MinimumPathSum::GetMinimumPathSumThree(vector<vector<int>> matrix) {
 int EditDistance::CountSteps(string word1, string word2) {
     int m = int(word1.size());
     int n = int(word2.size());
-    vector<vector<int>> f(m, vector<int>(n, 0));
-    if (word1[0] != word2[0]) {
-        f[0][0] = 1;
+    if (m == 0 || n == 0) return max(m, n);
+    vector<vector<int>> f(m + 1, vector<int>(n + 1, 0));
+    for (int i = 0; i <= m; ++i) {
+        f[i][0] = i;
     }
-    for (int i = 1; i < m; ++i) {
-        f[i][0] = f[i - 1][0] + 1;
+    for (int j = 0; j <= n; ++j) {
+        f[0][j] = j;
     }
-    for (int j = 1; j < n; ++j) {
-        f[0][j] = f[0][j - 1] + 1;
-    }
-    for (int i = 1; i < m; ++i) {
-        for (int j = 1; j < n; ++j) {
-            if (word1[i] == word2[j]) {
-                f[i][j] = f[i - 1][j - 1];
+    for (int i = 1; i <= m; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if (word1[i - 1] == word2[j - 1]) {
+                f[i][j] = min(min(f[i][j - 1], f[i - 1][j]) + 1, f[i - 1][j - 1]);
             } else {
                 f[i][j] = min(min(f[i][j - 1], f[i - 1][j]), f[i - 1][j - 1]) + 1;
             }
         }
     }
-    return f[m - 1][n - 1];
+    return f[m][n];
 }
 
 /*

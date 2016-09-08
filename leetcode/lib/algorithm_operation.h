@@ -278,6 +278,7 @@ public:
      * Time complexity: O(n^2) Time complexity: O(n^2)
      */
     int MinimumCut(string s);
+    
 protected:
 
 private:
