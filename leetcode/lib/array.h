@@ -494,7 +494,20 @@ private:
  */
 class GrayCode {
 public:
-    
+    vector<int> grayCode(int n) {
+        vector<int> numbers;
+        int max_num = pow(2, n);
+        for (int i = 0; i < max_num; ++i) {
+            int num = 0;
+            for (int j = 0; j < n; ++j) {
+                if (((i >> j) & 1) != (i >> (j + 1) & 1)) {
+                    num |= (1 << j);
+                }
+            }
+            numbers.push_back(num);
+        }
+        return numbers;
+    }
 protected:
     
 private:

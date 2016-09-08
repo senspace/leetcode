@@ -404,7 +404,7 @@ bool ScrambleString::IsScrambleStringOne(string s1, string s2) {
         ++numbers[s1[i] - 'a'];
         --numbers[s2[i] - 'a'];
     }
-    for (int i = 0; i < length1; ++i) {
+    for (int i = 0; i < 26; ++i) {
         if (numbers[i] != 0) {
             return false;
         }
