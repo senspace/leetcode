@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include "matrix_operation.h"
+#include "sort_operation.h"
 
 using namespace std;
 
@@ -75,11 +76,65 @@ int function_one() {
     return sum;
 }
 
+#define ELEM_PER_LINE 8
+template <typename T>
+void dump_array(const T *a, uint32_t sz) {
+    uint32_t i = 0;
+    for (; i < sz; i++) {
+        std::ios state(NULL);
+        state.copyfmt(std::cout);
+        cout << "( " << (int64_t)a[i] << ", 0x" << std::hex << (uint64_t)a[i]
+        << ", " << a[i] << ")";
+        if ((i + 1) % ELEM_PER_LINE == 0)
+            cout << endl;
+        else
+            cout << ", ";
+        std::cout.copyfmt(state);
+    }
+}
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     // matrix_function();
-    int sum = function_one();
-    cout << sum << endl;
+    // int sum = function_one();
+    // cout << sum << endl;
+    vector<int> numbers = {2, 4, 6, 3, 8, 1, 8, 9, 0, 1, 2, 5, 7, 8, 1, 10, 6, 8, 3};
+    BasicSortOperation basic_sort_operation;
+    // basic_sort_operation.QuickSort(numbers);
+    // basic_sort_operation.MergeSort(numbers);
+    basic_sort_operation.HeapSort(numbers);
+    for (int i = 0; i < int(numbers.size()); ++ i) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+    
+    cout << endl;
+    const int nums[] = {2, 4, 6, 3, 8, 1, 8, 9, 0, 1, 2, 5, 7, 8, 1, 10, 6, 8, 3};
+    for (int i = 0; i < 16; ++i) {
+        cout << nums[i] << " ";
+    }
+    cout << endl;cout << endl;
+    dump_array(nums, 16);
+    cout << RAND_MAX << endl;
+    cout << pow(2, 31) << endl;
+    
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

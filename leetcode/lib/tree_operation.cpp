@@ -546,9 +546,7 @@ int BalancedBinaryTree::BalancedHeight(TreeNode *root) {
     if (left == -1 || right == -1 || abs(left - right) > 1) {
         return -1;
     }
-    
     return max(left, right) + 1;
-
 }
 
 /* Recursively one -> Time complexity: O(n) Space complexity: O(logn) */

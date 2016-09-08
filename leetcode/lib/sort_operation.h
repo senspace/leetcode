@@ -160,4 +160,111 @@ private:
 };
 
 
+class BasicSortOperation {
+public:
+    /* 
+     * 快速排序：不稳定，时间复杂度 最理想 O(nlogn) 最差时间O(n^2)
+     * 快速排序是对冒泡排序的一种本质改进。它的基本思想是通过一趟扫描后，使得排序序列的长度能大幅度地减少。
+     * 在冒泡排序中，一次扫描只能确保最大数值的数移到正确位置，而待排序序列的长度可能只减少1。快速排序通过
+     * 一趟扫描，就能确保某个数（以它为基准点吧）的左边各数都比它小，右边各数都比它大。然后又用同样的方法处
+     * 理它左右两边的数，直到基准点的左右只有一个元素为止。
+     */
+    void QuickSort(vector<int> &numbers) {
+        QuickSortOperation(numbers, 0, int(numbers.size()));
+    }
+    void QuickSortOperation(vector<int> &numbers, int start, int end) {
+        if (start >= end) return;
+        int start_index = start, end_index = end;
+        int pivot = numbers[start];
+        while(start < end) {
+            while(end > start && numbers[end] >= pivot) --end;
+            numbers[start] = numbers[end];
+            while(start < end && numbers[start] < pivot) ++start;
+            numbers[end] = numbers[start];
+        }
+        numbers[start] = pivot;
+        QuickSortOperation(numbers, start_index, start - 1);
+        QuickSortOperation(numbers, start + 1, end_index);
+    }
+    
+    /*
+     * 归并排序：稳定，时间复杂度 O(nlog n)
+     * 设有两个有序（升序）序列存储在同一数组中相邻的位置上，不妨设为A[l..m]，A[m+1..h]，
+     * 将它们归并为一个有序数列，并存储在A[l..h]。
+     */
+    void MergeSort(vector<int> &numbers) {
+        int length = int(numbers.size());
+        vector<int> temp(length, 0);
+        MergeSortOperation(numbers, 0, length - 1, temp);
+    }
+    
+    void MergeSortOperation(vector<int> &numbers, int start, int end, vector<int> &temp) {
+        if (end == start) return;
+        int middle = start + (end - start) / 2;
+        MergeSortOperation(numbers, start, middle, temp);
+        MergeSortOperation(numbers, middle + 1, end, temp);
+        Merge(numbers, start, middle, end, temp);
+    }
+    
+    void Merge(vector<int> &numbers, int start, int middle, int end, vector<int> &temp) {
+        int start_index = start, end_index = end;
+        int pivot = middle, index = end;
+        while (middle >= start && end > pivot) {
+            temp[index--] = numbers[middle] > numbers[end] ? numbers[middle--] : numbers[end--];
+        }
+        while (middle >= start) {
+            temp[index--] = numbers[middle--];
+        }
+        while (end > pivot) {
+            temp[index--] = numbers[end--];
+        }
+        for (int i = start_index; i <= end_index; ++i) {
+            numbers[i] = temp[i];
+        }
+    }
+    
+    /*
+     * 堆排序：不稳定，时间复杂度 O(nlogn)
+     * 堆排序是一种树形选择排序，在排序过程中，将A[n]看成是完全二叉树的顺序存储结构，利用完全二叉树中
+     * 双亲结点和孩子结点之间的内在关系来选择最小的元素。
+     * 参考: http://www.cnblogs.com/kkun/archive/2011/11/23/2260286.html
+     *      http://blog.sina.com.cn/s/blog_771849d301010ta0.html
+     */
+    void HeapSort(vector<int> &numbers) {
+        vector<int> results;
+        int length = int(numbers.size());
+        while (int(numbers.size()) > 0) {
+            int len = int(numbers.size());
+            BuildMaxHeap(numbers, len, 0);
+            results.push_back(numbers[0]);
+            numbers[0] = numbers[len - 1];
+            numbers.pop_back();
+        }
+        for (int i = length - 1; i >= 0; --i) {
+            numbers.push_back(results[i]);
+        }
+    }
+    
+    int BuildMaxHeap(vector<int> &numbers, int len, int index) {
+        if (index >= len) return INT_MIN;
+        if (BuildMaxHeap(numbers, len, 2 * index + 1) > numbers[index]) {
+            int temp = numbers[2 * index + 1];
+            numbers[2 * index + 1] = numbers[index];
+            numbers[index] = temp;
+        }
+        if (BuildMaxHeap(numbers, len, 2 * index + 2) > numbers[index]) {
+            int temp = numbers[2 * index + 2];
+            numbers[2 * index + 2] = numbers[index];
+            numbers[index] = temp;
+        }
+        return numbers[index];
+    }
+protected:
+
+private:
+    
+};
+
+
+
 #endif /* sort_operation_h */

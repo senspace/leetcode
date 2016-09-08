@@ -81,7 +81,6 @@
 
 using namespace std;
 
-
 class ImageOperation {
 public:
     // one: 顺时针旋转90度
